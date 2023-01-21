@@ -53,7 +53,7 @@ public class MyPanel extends JPanel {
                 g.drawLine(x+19,y+30,x+19,y);
                 g.drawLine(x+21,y+30,x+21,y);
                 break;
-            case 1://敌人的坦克
+            case 1://
                 g.setColor(Color.yellow);
                 break;
             default:

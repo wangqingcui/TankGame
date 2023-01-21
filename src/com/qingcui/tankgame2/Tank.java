@@ -8,6 +8,38 @@ public class Tank {
 //    坦克横纵坐标
     private int x;
     private int y;
+    private int direct=0;//坦克方向0123
+    private int speed=3;
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    //上右下左移动方法
+    public void moveUp(){
+        y-=speed;
+    }
+    public void moveRight(){
+        x+=speed;
+    }
+    public void moveDown(){
+        y+=speed;
+    }
+    public void moveLeft(){
+        x-=speed;
+    }
+
+    public int getDirect() {
+        return direct;
+    }
+
+    public void setDirect(int direct) {
+        this.direct = direct;
+    }
 
     public Tank(int x, int y) {
         this.x = x;
