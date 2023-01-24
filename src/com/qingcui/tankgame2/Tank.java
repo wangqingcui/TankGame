@@ -5,11 +5,11 @@ package com.qingcui.tankgame2;
  * @version 1.0
  */
 public class Tank {
-//    坦克横纵坐标
-    private int x;
-    private int y;
-    private int direct=0;//坦克方向0123
-    private int speed=3;
+
+    private int x;//    坦克横坐标
+    private int y;//    坦克纵坐标
+    private int direct = 0;//坦克方向0123
+    private int speed = 8;
 
     public int getSpeed() {
         return speed;
@@ -20,17 +20,20 @@ public class Tank {
     }
 
     //上右下左移动方法
-    public void moveUp(){
-        y-=speed;
+    public void moveUp() {
+        y -= speed;
     }
-    public void moveRight(){
-        x+=speed;
+
+    public void moveRight() {
+        x += speed;
     }
-    public void moveDown(){
-        y+=speed;
+
+    public void moveDown() {
+        y += speed;
     }
-    public void moveLeft(){
-        x-=speed;
+
+    public void moveLeft() {
+        x -= speed;
     }
 
     public int getDirect() {
