@@ -23,15 +23,19 @@ public class EnemyTank extends Tank implements Runnable {
             for (int i = 0; i < (int) (Math.random() * 50); i++) {
                 switch (getDirect()) {
                     case 0:
+                        if (getY()>0)
                         moveUp();
                         break;
                     case 1:
+                        if (getX()+60< 1000)
                         moveRight();
                         break;
                     case 2:
+                        if (getY()+60<750)
                         moveDown();
                         break;
                     case 3:
+                        if (getX()>0)
                         moveLeft();
                         break;
                 }

@@ -81,7 +81,7 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
                 g.drawImage(image3, bomb.x, bomb.y, 60, 60, this);
             }
             bomb.lifeDown();
-            if (bomb.life==0){
+            if (bomb.life == 0) {
                 bombs.remove(bomb);
             }
         }
@@ -204,21 +204,27 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_W) {
             hero.setDirect(0);
-            hero.moveUp();
+            if (hero.getY() > 0)
+                hero.moveUp();
         } else if (e.getKeyCode() == KeyEvent.VK_D) {
             hero.setDirect(1);
-            hero.moveRight();
+            if (hero.getX() + 60 < 1000)
+                hero.moveRight();
         } else if (e.getKeyCode() == KeyEvent.VK_S) {
             hero.setDirect(2);
-            hero.moveDown();
+            if (hero.getY() + 60 < 750)
+                hero.moveDown();
         } else if (e.getKeyCode() == KeyEvent.VK_A) {
             hero.setDirect(3);
-            hero.moveLeft();
+            if (hero.getX() > 0)
+                hero.moveLeft();
         }
 //        如果是J shot
         if (e.getKeyCode() == KeyEvent.VK_J) {
-            System.out.println("JJJJ");
-            hero.shotEnemyTank();
+//            System.out.println("JJJJ");
+            if (hero.shot == null || !hero.shot.isLive) {
+                hero.shotEnemyTank();
+            }
         }
 
 //        重绘
