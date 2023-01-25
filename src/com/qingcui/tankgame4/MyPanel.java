@@ -15,8 +15,15 @@ import java.util.Vector;
 public class MyPanel extends JPanel implements KeyListener, Runnable {
     //    定义我的坦克
     Hero hero = null;
+    //挡子弹击中坦克时 加入一个Bomb对象bombs
     Vector<EnemyTank> enemyTanks = new Vector<>();
+    //    定义一个Vertor存放炸弹
+    Vector<Bomb> bombs = new Vector<>();
     public int enemyTanksSize = 3;
+    //定义三张炸弹图片 用于爆炸效果
+    Image image1 = null;
+    Image image2 = null;
+    Image image3 = null;
 
     public MyPanel() {
         hero = new Hero(100, 100);//初始化自己坦克
@@ -34,6 +41,10 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
             enemyTanks.add(enemyTank);
         }
 //        hero.setSpeed();
+        //初始化三张图片
+        image1 = Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/bomb_1.gif"));
+        image2 = Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/bomb_2.gif"));
+        image3 = Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/bomb_3.gif"));
     }
 
     @Override
@@ -49,7 +60,31 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
         if (hero.shot != null && hero.shot.isLive != false) {
             g.fill3DRect(hero.shot.x - 2, hero.shot.y - 2, 5, 5, false);
         }
-//        敌人坦克
+
+        //如果bombs集合中有对象就画出
+        for (int i = 0; i < bombs.size(); i++) {
+            //取出炸弹
+            try {//第一个坦克有bug
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Bomb bomb = bombs.get(i);
+            //根据生命值画出对应图片
+            if (bomb.life > 6) {
+                g.drawImage(image1, bomb.x, bomb.y, 60, 60, this);
+            } else if (bomb.life > 3) {
+                g.drawImage(image2, bomb.x, bomb.y, 60, 60, this);
+            } else {
+                g.drawImage(image3, bomb.x, bomb.y, 60, 60, this);
+            }
+            bomb.lifeDown();
+            if (bomb.life==0){
+                bombs.remove(bomb);
+            }
+        }
+
+//       画出 敌人坦克
         for (int i = 0; i < enemyTanks.size(); i++) {
             EnemyTank enemyTank = enemyTanks.get(i);
             if (enemyTank.isLive) {
@@ -130,7 +165,7 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
     }
 
     //编写方法判断子弹是否击中敌人
-    public static void hitTank(Shot s, EnemyTank enemyTank) {
+    public /*static*/ void hitTank(Shot s, EnemyTank enemyTank) {
         //判断s击中坦克
         switch (enemyTank.getDirect()) {
             case 0://上下
@@ -139,6 +174,9 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
                         && s.y > enemyTank.getY() && s.y < enemyTank.getY() + 60) {
                     s.isLive = false;
                     enemyTank.isLive = false;
+                    //创建Bomb对象加入bombs
+                    Bomb bomb = new Bomb(enemyTank.getX(), enemyTank.getY());
+                    bombs.add(bomb);
                 }
                 break;
             case 1://左右
@@ -197,7 +235,7 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
                 e.printStackTrace();
             }
             //判断坦克是否被击中
-            if (hero.shot!=null&&hero.shot.isLive) {
+            if (hero.shot != null && hero.shot.isLive) {
                 for (int i = 0; i < enemyTanks.size(); i++) {
                     EnemyTank enemyTank = enemyTanks.get(i);
                     hitTank(hero.shot, enemyTank);
