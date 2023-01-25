@@ -11,7 +11,8 @@ import java.util.Vector;
  * @version 1.0
  */
 //坦克大战绘图区
-public class MyPanel extends JPanel implements KeyListener {
+//为了让panel 不停的重绘子弹 需要将mypanel 实现Runnable，当作线程使用
+public class MyPanel extends JPanel implements KeyListener, Runnable {
     //    定义我的坦克
     Hero hero = null;
     Vector<EnemyTank> enemyTanks = new Vector<>();
@@ -40,6 +41,10 @@ public class MyPanel extends JPanel implements KeyListener {
         drawTank(hero.getX(), hero.getY(), g, hero.getDirect(), 1);
 //        drawTank(hero.getX(), hero.getY(), g, 3, 0);
 //        drawTank(hero.getX()+60, hero.getY(), g, 2, 1);
+//        画出射击的子弹
+        if (hero.shot != null && hero.shot.isLive != false) {
+            g.fill3DRect(hero.shot.x-2, hero.shot.y-2, 5, 5, false);
+        }
 //        敌人坦克
         for (int i = 0; i < enemyTanks.size(); i++) {
             EnemyTank enemyTank = enemyTanks.get(i);
@@ -128,7 +133,7 @@ public class MyPanel extends JPanel implements KeyListener {
             hero.moveLeft();
         }
 //        如果是J shot
-        if (e.getKeyCode() == KeyEvent.VK_J){
+        if (e.getKeyCode() == KeyEvent.VK_J) {
             System.out.println("JJJJ");
             hero.shotEnemyTank();
         }
@@ -139,6 +144,19 @@ public class MyPanel extends JPanel implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
+
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            this.repaint();
+        }
 
     }
 }
