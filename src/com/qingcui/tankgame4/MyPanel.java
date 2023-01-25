@@ -33,6 +33,8 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
             EnemyTank enemyTank = new EnemyTank(100 * (i + 1), 0);
 //            设置方向
             enemyTank.setDirect(2);
+            //启动敌人坦克线程
+            new Thread(enemyTank).start();
 //            enemyTanks.add(new EnemyTank(100 * (i + 1), 0));
 //            加入子弹
             Shot shot = new Shot(enemyTank.getX() + 20, enemyTank.getY() + 60, enemyTank.getDirect());
@@ -87,7 +89,7 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
 //       画出 敌人坦克
         for (int i = 0; i < enemyTanks.size(); i++) {
             EnemyTank enemyTank = enemyTanks.get(i);
-            if (enemyTank.isLive) {
+            if (enemyTank.isLive) {//判断坦克是否活着
                 drawTank(enemyTank.getX(), enemyTank.getY(), g, enemyTank.getDirect(), 0);
                 //画出子弹
                 for (int j = 0; j < enemyTank.shots.size(); j++) {
@@ -174,6 +176,8 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
                         && s.y > enemyTank.getY() && s.y < enemyTank.getY() + 60) {
                     s.isLive = false;
                     enemyTank.isLive = false;
+                    //击中时将敌人坦克移除
+                    enemyTanks.remove(enemyTank);
                     //创建Bomb对象加入bombs
                     Bomb bomb = new Bomb(enemyTank.getX(), enemyTank.getY());
                     bombs.add(bomb);
