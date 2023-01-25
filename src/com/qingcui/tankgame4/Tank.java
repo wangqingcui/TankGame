@@ -9,7 +9,7 @@ public class Tank {
     private int x;//    坦克横坐标
     private int y;//    坦克纵坐标
     private int direct = 0;//坦克方向0123
-    private int speed = 8;
+    private int speed = 10;
 
     public int getSpeed() {
         return speed;

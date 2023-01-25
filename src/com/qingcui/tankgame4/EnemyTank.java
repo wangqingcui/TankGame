@@ -8,7 +8,9 @@ import java.util.Vector;
  * 敌人坦克
  */
 public class EnemyTank extends Tank {
-    Vector<Shot> shots =new  Vector<>();
+    Vector<Shot> shots = new Vector<>();
+    boolean isLive = true;
+
     public EnemyTank(int x, int y) {
         super(x, y);
 //        direct=2;

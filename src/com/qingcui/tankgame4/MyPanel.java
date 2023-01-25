@@ -52,17 +52,19 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
 //        敌人坦克
         for (int i = 0; i < enemyTanks.size(); i++) {
             EnemyTank enemyTank = enemyTanks.get(i);
-            drawTank(enemyTank.getX(), enemyTank.getY(), g, enemyTank.getDirect(), 0);
-            //画出子弹
-            for (int j = 0; j < enemyTank.shots.size(); j++) {
+            if (enemyTank.isLive) {
+                drawTank(enemyTank.getX(), enemyTank.getY(), g, enemyTank.getDirect(), 0);
+                //画出子弹
+                for (int j = 0; j < enemyTank.shots.size(); j++) {
 //                取出子弹
-                Shot shot = enemyTank.shots.get(j);
-                //绘制
-                if (shot.isLive) {
-                    g.fill3DRect(shot.x - 2, shot.y - 2, 5, 5, false);
-                } else {
-                    //从Vertor移除
-                    enemyTank.shots.remove(shot);
+                    Shot shot = enemyTank.shots.get(j);
+                    //绘制
+                    if (shot.isLive) {
+                        g.fill3DRect(shot.x - 2, shot.y - 2, 5, 5, false);
+                    } else {
+                        //从Vertor移除
+                        enemyTank.shots.remove(shot);
+                    }
                 }
             }
         }
@@ -127,6 +129,29 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
 
     }
 
+    //编写方法判断子弹是否击中敌人
+    public static void hitTank(Shot s, EnemyTank enemyTank) {
+        //判断s击中坦克
+        switch (enemyTank.getDirect()) {
+            case 0://上下
+            case 2:
+                if (s.x > enemyTank.getX() && s.x < enemyTank.getX() + 40
+                        && s.y > enemyTank.getY() && s.y < enemyTank.getY() + 60) {
+                    s.isLive = false;
+                    enemyTank.isLive = false;
+                }
+                break;
+            case 1://左右
+            case 3:
+                if (s.x > enemyTank.getX() && s.x < enemyTank.getX() + 60
+                        && s.y > enemyTank.getY() && s.y < enemyTank.getY() + 40) {
+                    s.isLive = false;
+                    enemyTank.isLive = false;
+                }
+                break;
+        }
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -170,6 +195,13 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
+            }
+            //判断坦克是否被击中
+            if (hero.shot!=null&&hero.shot.isLive) {
+                for (int i = 0; i < enemyTanks.size(); i++) {
+                    EnemyTank enemyTank = enemyTanks.get(i);
+                    hitTank(hero.shot, enemyTank);
+                }
             }
             this.repaint();
         }
