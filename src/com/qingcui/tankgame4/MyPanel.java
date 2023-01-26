@@ -56,13 +56,20 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
         //    画出坦克-》封装到方法
 //        自己坦克
         drawTank(hero.getX(), hero.getY(), g, hero.getDirect(), 1);
-//        drawTank(hero.getX(), hero.getY(), g, 3, 0);
-//        drawTank(hero.getX()+60, hero.getY(), g, 2, 1);
 //        画出射击的子弹
         if (hero.shot != null && hero.shot.isLive != false) {
             g.fill3DRect(hero.shot.x - 2, hero.shot.y - 2, 5, 5, false);
         }
 
+        //将hero的子弹集合 shots ,遍历取出绘制
+//        for(int i = 0; i < hero.shots.size(); i++) {
+//            Shot shot = hero.shots.get(i);
+//            if (shot != null && shot.isLive) {
+//                g.fill3DRect(hero.shot.x - 2, hero.shot.y - 2, 5, 5, false);
+//            } else {//如果该shot对象已经无效 ,就从shots集合中拿掉
+//                hero.shots.remove(shot);
+//            }
+//        }
         //如果bombs集合中有对象就画出
         for (int i = 0; i < bombs.size(); i++) {
             //取出炸弹
@@ -225,6 +232,7 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
             if (hero.shot == null || !hero.shot.isLive) {
                 hero.shotEnemyTank();
             }
+//            hero.shotEnemyTank();
         }
 
 //        重绘
