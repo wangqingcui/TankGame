@@ -42,7 +42,7 @@ public class EnemyTank extends Tank implements Runnable {
 
                 //休眠五十ms
                 try {
-                    Thread.sleep(90);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

@@ -18,7 +18,7 @@ public class TankGame04 extends JFrame {
        Thread thread = new Thread(mp);
        thread.start();
        this.add(mp);//把面板（绘图区）
-       this.setSize(1000,750);
+       this.setSize(1100,850);
        this.addKeyListener(mp);//增加监听
        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        this.setVisible(true);
